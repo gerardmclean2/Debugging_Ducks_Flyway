@@ -5,6 +5,7 @@ import org.example.exceptions.FailedToCreateException;
 import org.example.models.SalesEmpRequest;
 import org.example.services.SalesEmpService;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -49,5 +50,11 @@ public class SalesEmpController {
         } catch (FailedToCreateException | SQLException e) {
             return Response.serverError().build();
         }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getSalesEmployees() throws SQLException {
+        return Response.ok().entity(salesEmpService.getAllSalesEmployees()).build();
     }
 }
