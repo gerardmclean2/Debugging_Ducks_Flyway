@@ -6,6 +6,10 @@ import org.example.models.DeliveryEmpRequest;
 import org.example.services.DeliveryEmpService;
 
 import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
@@ -41,5 +45,11 @@ public class DeliveryEmpController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDeliveryEmployeeByID(@PathParam("id") int id) throws SQLException {
         return Response.ok().entity(deliveryEmpService.getDeliveryEmployeeById(id)).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getDeliveryEmployees() throws SQLException {
+        return Response.ok().entity(deliveryEmpService.getAllDeliveryEmployees()).build();
     }
 }

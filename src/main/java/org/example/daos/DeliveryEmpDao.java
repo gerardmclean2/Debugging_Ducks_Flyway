@@ -2,12 +2,16 @@ package org.example.daos;
 
 import org.example.models.DeliveryEmpRequest;
 import org.example.models.DeliveryEmployee;
+import org.example.models.DeliveryEmployee;
+import org.example.models.DeliveryEmployeeResponse;
 
 import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DeliveryEmpDao {
@@ -40,6 +44,29 @@ public class DeliveryEmpDao {
             }
         }
         return -1;
+    }
+
+    public List<DeliveryEmployeeResponse> getAllDeliveryEmployees() throws SQLException {
+        List<DeliveryEmployeeResponse> deliveryEmployees = new ArrayList<>();
+
+        try(Connection connection = DatabaseConnector.getConnection()) {
+            Statement statement = connection.createStatement();
+
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT Name, BankAcctNum, NINO, Salary FROM DeliveryEmployee");
+
+            while(resultSet.next()) {
+                DeliveryEmployeeResponse deliveryEmployeeResponse = new DeliveryEmployeeResponse(
+                        resultSet.getString("Name"),
+                        resultSet.getString("NINO"),
+                        resultSet.getInt("BankAcctNum"),
+                        resultSet.getDouble("Salary")
+                        );
+                deliveryEmployees.add(deliveryEmployeeResponse);
+            }
+        }
+
+        return deliveryEmployees;
     }
 
     public DeliveryEmployee getDeliveryEmployeeById(int id) throws SQLException {
