@@ -1,6 +1,7 @@
 package org.example.daos;
 
 import org.example.models.DeliveryEmpRequest;
+import org.example.models.DeliveryEmployee;
 
 import java.sql.Statement;
 import java.sql.Connection;
@@ -39,5 +40,29 @@ public class DeliveryEmpDao {
             }
         }
         return -1;
+    }
+
+    public DeliveryEmployee getDeliveryEmployeeById(int id) throws SQLException {
+
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String query = "Select id, Name, BankAcctNum, NINO, Salary FROM DeliveryEmployee WHERE id = ?;";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            statement.setInt(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return new DeliveryEmployee(
+                        resultSet.getInt("id"),
+                        resultSet.getString("Name"),
+                        resultSet.getInt("BankAcctNum"),
+                        resultSet.getString("NINO"),
+                        resultSet.getString("Salary")
+                );
+
+            }
+            return null;
+        }
     }
 }
