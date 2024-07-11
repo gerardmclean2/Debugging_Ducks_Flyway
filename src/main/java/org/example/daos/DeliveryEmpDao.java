@@ -69,10 +69,10 @@ public class DeliveryEmpDao {
         return deliveryEmployees;
     }
 
-    public DeliveryEmployee getDeliveryEmployeeById(int id) throws SQLException {
+    public DeliveryEmployeeResponse getDeliveryEmployeeById(int id) throws SQLException {
 
         try (Connection connection = DatabaseConnector.getConnection()) {
-            String query = "Select id, Name, BankAcctNum, NINO, Salary FROM DeliveryEmployee WHERE id = ?;";
+            String query = "Select Name, BankAcctNum, NINO, Salary FROM DeliveryEmployee WHERE id = ?;";
             PreparedStatement statement = connection.prepareStatement(query);
 
             statement.setInt(1, id);
@@ -80,12 +80,11 @@ public class DeliveryEmpDao {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                return new DeliveryEmployee(
-                        resultSet.getInt("id"),
+                return new DeliveryEmployeeResponse(
                         resultSet.getString("Name"),
-                        resultSet.getInt("BankAcctNum"),
                         resultSet.getString("NINO"),
-                        resultSet.getString("Salary")
+                        resultSet.getInt("BankAcctNum"),
+                        resultSet.getDouble("Salary")
                 );
 
             }

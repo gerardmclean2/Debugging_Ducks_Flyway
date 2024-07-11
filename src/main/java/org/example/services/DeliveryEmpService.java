@@ -32,7 +32,7 @@ public class DeliveryEmpService {
         return deliveryEmpDao.getAllDeliveryEmployees();
     }
 
-    public DeliveryEmployee getDeliveryEmployeeById(int id) throws SQLException {
+    public DeliveryEmployeeResponse getDeliveryEmployeeById(int id) throws SQLException {
         return deliveryEmpDao.getDeliveryEmployeeById(id);
     }
 }
